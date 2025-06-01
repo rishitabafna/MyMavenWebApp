@@ -14,6 +14,17 @@ pipeline{
 				sh 'mvn clean package'
 			}
 		}
+		stage('c'){
+			steps{
+				archiveArtifacts artifacts:'target/*.war',fingerprint:true
+			}
+		}
+		stage('d'){
+			steps{
+				sh 'mvn clean package' ansiblePlaybook playbook:'ansible/deploy.yml',inventory:'ansible/hists.ini'
+			}
+		}
+		
 		
 	}
 }
